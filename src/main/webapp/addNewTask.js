@@ -1,15 +1,17 @@
 $(function () {
-    $('#add-task-btn').click(() => {
+    $('#btn-add-task').click(() => {
         $.ajax({
             type: 'POST',
             crossdomain: true,
             url: getContextPath() + '/tasks.ajax',
-            body: {
+            dataType: 'text/json',
+            data: {
+                server_action: "ADD_TASK",
                 desc: $('#task-desc').val()
             },
         }).done((data) => {
             window.location.href = getContextPath();
-            alert("Задача добавлена!");
+            alert("Task added!");
         }).fail((err) => {
             alert("Error!!! - See console");
             console.log(err);

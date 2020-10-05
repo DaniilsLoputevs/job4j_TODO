@@ -22,6 +22,7 @@
     <script src="ajaxLoadTable.js"></script>
     <script src="addNewTask.js"></script>
     <script src="hideDoneTasks.js"></script>
+    <script src="saveTable.js"></script>
 
     <title>TODO job4j</title>
 </head>
@@ -31,23 +32,40 @@
 
 <div class="container">
     <div class="row pt-3">
-        <!--        add new Task -->
-        <form id="newTaskForm">
-            <label>New Task
-                <input id="task-desc" type="text" class="form-control">
-            </label>
-            <button id="add-task-btn" type="button" class="btn btn-success">add Task</button>
+
+        <form>
+            <div class="form-row">
+                <!-- add new Task -->
+                <div class="col">
+                    <form id="newTaskForm">
+                        <label>New Task
+                            <input id="task-desc" type="text" class="form-control" placeholder="task description">
+                        </label>
+                        <div class="col">
+                            <button id="btn-add-task" class="btn btn-primary">add Task</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- btn hide OR show done task -->
+                <div class="col">
+                    <button id="btn-hide-done-task" type="button" class="btn btn-success">show/hide done tasks</button>
+                </div>
+                <!-- update table -->
+                <div class="col">
+                    <button id="btn-upd-table" type="button" class="btn btn-success">update changes</button>
+                </div>
+            </div>
         </form>
-        <!--        show/hide btn-->
-        <button id="hide-done-task" type="button" class="btn btn-success">show/hide done tasks</button>
-        <!--        table -->
+
+
+        <!-- table -->
         <table id="table" class="table table-bordered">
             <thead>
             <tr>
                 <th style="width: 120px">ID</th>
                 <th>Desc</th>
                 <th>Created</th>
-                <th>done</th>
+                <th>Done</th>
             </tr>
             </thead>
             <tbody id="tableBody">

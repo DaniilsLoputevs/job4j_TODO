@@ -67,6 +67,15 @@ public class TaskStore {
         });
     }
 
+    public boolean updateAll(Task... tasks) {
+        return (boolean) transactionCore(session -> {
+            for (Task task : tasks) {
+                session.update(task);
+            }
+            return true;
+        });
+    }
+
     private Object transactionCore(Function<Session, Object> action) {
         Session session = sf.openSession();
         session.beginTransaction();

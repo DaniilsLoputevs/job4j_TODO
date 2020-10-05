@@ -11,27 +11,27 @@ $(document).ready(() => {
         for (let i = 0; i < data.length; i++) {
             seatList.push(data[i]);
         }
-        let rsl = ``;
-        let doneValue = "";
+
         for (let i = 0; i < seatList.length; i++) {
             let seat = seatList[i];
+            let checkValue = "";
+            let rsl = ``;
 
             if (seat.done === true) {
-                doneValue = "checked";
+                checkValue = "checked";
             }
 
-            let lineIndex = "line";
-
             rsl += `
-                <tr id="${lineIndex}">
+                <tr id="line">
                 <td>${seat.id}</td>
                 <td>${seat.description} </td>
                 <td>${seat.created} </td>
-                <td><input type="checkbox" class="check" name="table-line" ${doneValue}></td>
+                <td><input id="check-id${seat.id}" type="checkbox" class="check" name="table-line" ${checkValue}></td>
                 </tr>
                 `;
             $('#tableBody tr:last').after(rsl);
             rsl = '';
+            checkValue = "";
         }
     }).fail((err) => {
         alert("Error!!! - See console");

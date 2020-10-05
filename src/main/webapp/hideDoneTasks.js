@@ -1,5 +1,5 @@
 $(function () {
-    $("#hide-done-task").click(function () {
+    $("#btn-hide-done-task").click(function () {
         const hideLine = $('.check:checked').parents("#line");
         hideLine.slideToggle("fast");
         $(hideLine).toggleClass("active");
