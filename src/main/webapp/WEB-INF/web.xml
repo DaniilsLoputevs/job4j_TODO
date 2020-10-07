@@ -16,4 +16,14 @@
     <servlet-name>ajaxQuery</servlet-name>
     <url-pattern>/tasks.ajax</url-pattern>
   </servlet-mapping>
+  <!-- ajax Login Servlet -->
+  <servlet>
+    <servlet-name>ajaxLogin</servlet-name>
+    <servlet-class>ajax.AjaxLogin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxLogin</servlet-name>
+    <url-pattern>/login.ajax</url-pattern>
+  </servlet-mapping>
+
 </web-app>

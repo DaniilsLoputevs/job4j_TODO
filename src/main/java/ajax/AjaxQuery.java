@@ -3,6 +3,7 @@ package ajax;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Task;
+import models.User;
 import store.TaskStore;
 
 import javax.servlet.ServletException;
@@ -26,7 +27,7 @@ public class AjaxQuery extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
+//        resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setContentType("text/json");
 
@@ -43,9 +44,12 @@ public class AjaxQuery extends HttpServlet {
     }
 
     /**
-     * Processing all ajax POST requests.
+     * Processing ajax POST requests:
+     * ADD_TASK
+     * UPD_TABLE
      * <p>
      * server_action : String - how to processing this request.
+     * user : String - session user.
      * desc : String - task description.
      * tasks : (String-JSON) Task[].
      * <p>
@@ -64,7 +68,9 @@ public class AjaxQuery extends HttpServlet {
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) {
         String desc = req.getParameter("desc");
-        Task temp = new Task(-1, desc, new Timestamp(System.currentTimeMillis()), false);
+//        User user = User.of(req.getParameter("user"));
+        User user = new User();
+        Task temp = new Task(-1, desc, new Timestamp(System.currentTimeMillis()), false, user);
         TaskStore.instOf().add(temp);
     }
 

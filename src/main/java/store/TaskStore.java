@@ -1,20 +1,13 @@
 package store;
 
+import hibernate.HbmProvider;
 import models.Task;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import models.User;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class TaskStore {
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-    private final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
+    private final HbmProvider hbmProvider = HbmProvider.instOf();
 
     private static final class Lazy {
         private static final TaskStore INST = new TaskStore();
@@ -24,68 +17,51 @@ public class TaskStore {
         return TaskStore.Lazy.INST;
     }
 
-//    public static void main(String[] args) {
-//        var first = new Task(1, "first", null, false);
-//        var second = new Task(2, "second", null, false);
-//        var third = new Task(3, "third", null, false);
-//        new TaskStore().add(first);
-//        new TaskStore().add(second);
-//        new TaskStore().add(third);
-//    }
 
     public void add(Task task) {
-        transactionCore(session -> {
+        hbmProvider.standardTransactionCore(session -> {
             session.save(task);
             return task;
         });
     }
 
     public Task getById(int id) {
-        return (Task) transactionCore(session ->
+        return (Task) hbmProvider.standardTransactionCore(session ->
                 session.createQuery("from Task where id=" + id)
                         .getSingleResult()
         );
     }
+
     public List<Task> getAll() {
-        return (List<Task>) transactionCore(session ->
+        return (List<Task>) hbmProvider.standardTransactionCore(session ->
                 session.createQuery("from Task")
                         .list()
         );
     }
+
     public boolean delete(int id) {
-        Task temp = new Task(id, "", null, false);
-        transactionCore(session -> {
+        Task temp = new Task(id, "", null, false, new User());
+        hbmProvider.standardTransactionCore(session -> {
             session.delete(temp);
             return true;
         });
         return true;
     }
+
     public boolean update(Task task) {
-        return (boolean) transactionCore(session -> {
+        return (boolean) hbmProvider.standardTransactionCore(session -> {
             session.update(task);
             return true;
         });
     }
 
     public boolean updateAll(Task... tasks) {
-        return (boolean) transactionCore(session -> {
+        return (boolean) hbmProvider.standardTransactionCore(session -> {
             for (Task task : tasks) {
                 session.update(task);
             }
             return true;
         });
-    }
-
-    private Object transactionCore(Function<Session, Object> action) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-
-        Object rsl = action.apply(session);
-
-        session.getTransaction().commit();
-        session.close();
-
-        return rsl;
     }
 
 }

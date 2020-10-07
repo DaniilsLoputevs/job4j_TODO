@@ -7,7 +7,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "tasks")
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,14 +14,19 @@ public class Task {
     private Timestamp created;
     private boolean done;
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User creator;
+
     public Task() {
     }
 
-    public Task(int id, String description, Timestamp created, boolean done) {
+    public Task(int id, String description, Timestamp created, boolean done, User creator) {
         this.id = id;
         this.description = description;
         this.created = created;
         this.done = done;
+//        this.creator = creator;
     }
 
     public int getId() {
@@ -56,6 +60,14 @@ public class Task {
     public void setDone(boolean done) {
         this.done = done;
     }
+
+//    public User getCreator() {
+//        return creator;
+//    }
+//
+//    public void setCreator(User creator) {
+//        this.creator = creator;
+//    }
 
     @Override
     public boolean equals(Object o) {

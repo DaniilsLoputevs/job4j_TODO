@@ -23,27 +23,30 @@
     <script src="addNewTask.js"></script>
     <script src="hideDoneTasks.js"></script>
     <script src="saveTable.js"></script>
+    <script src="login.js"></script>
 
     <title>TODO job4j</title>
 </head>
-<body>
 
 <h1>TODO tasks</h1>
+<!-- Link to Open the Modal -->
+<a id="link-login" href="#" class="text-primary"
+        data-toggle="modal" data-target="#auth-modal">
+    Login
+</a>
 
 <div class="container">
     <div class="row pt-3">
 
         <form>
-            <div class="form-row">
+            <div class="row">
                 <!-- add new Task -->
                 <div class="col">
                     <form id="newTaskForm">
                         <label>New Task
                             <input id="task-desc" type="text" class="form-control" placeholder="task description">
-                        </label>
-                        <div class="col">
                             <button id="btn-add-task" class="btn btn-primary">add Task</button>
-                        </div>
+                        </label>
                     </form>
                 </div>
                 <!-- btn hide OR show done task -->
@@ -73,6 +76,82 @@
             </tbody>
         </table>
     </div>
+
+    <!-- auth modal window -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Authorization</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label> Email
+                        <input id="auth-email" type="email" placeholder="Enter your email">
+                    </label>
+                    <label> Password
+                        <input id="auth-password" type="password" placeholder="Enter your password">
+                    </label>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <!-- Button to Open the Modal -->
+                    <a id="link-reg" href="#" class="text-primary"
+                       data-toggle="modal" data-target="#reg-modal">
+                        registration
+                    </a>
+                    <button id="btn-auth-submit" type="button" class="btn btn-success" data-dismiss="modal">
+                        authorization</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- registration modal window -->
+    <div class="modal" id="reg-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Registration</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label> Name
+                        <input id="reg-name" type="text" placeholder="Enter your name">
+                    </label>
+                    <label> Password
+                        <input id="reg-password" type="password" placeholder="Enter your password">
+                    </label>
+                    <label> Email
+                        <input id="reg-email" type="email" placeholder="Enter your email">
+                    </label>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn-reg-submit"
+
+                            class="btn btn-success"
+
+                    >
+                        Register</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 </div>
 </body>
 </html>
