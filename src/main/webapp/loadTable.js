@@ -25,7 +25,7 @@ $(document).ready(() => {
                 <tr id="line">
                 <td>${seat.id}</td>
                 <td>${seat.description} </td>
-                <td>${seat.creator} </td>
+                <td>${seat.creator.name} </td>
                 <td>${seat.created} </td>
                 <td><input id="check-id${seat.id}" type="checkbox" class="check" name="table-line" ${checkValue}></td>
                 </tr>

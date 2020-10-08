@@ -28,12 +28,14 @@ public class AjaxQuery extends HttpServlet {
      * goto: NONE - ajax script.
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        resp.setCharacterEncoding("UTF-8");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setContentType("text/json");
 
         List<Task> seatList = TaskStore.instOf().getAll();
+        CustomLog.log("seatList", seatList);
+
         try (var writer = new PrintWriter(resp.getOutputStream())) {
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -86,6 +88,10 @@ public class AjaxQuery extends HttpServlet {
 
     /**
      * very not obvious point.
+     * From front we get Task[] BUT without param "creator"(User class).
+     * This param with get as well, but only as String[].
+     * We need to convert this User.name into User by found this user in DB by Name.
+     * Finally, we found all "creators" and we set it in Task[] in forEach.
      *
      * @param req  -
      * @param resp -

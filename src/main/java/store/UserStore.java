@@ -48,4 +48,12 @@ public class UserStore {
             return temp.get(0);
         }
     }
+    public boolean delete(int id) {
+        User temp = new User(id, "", "", "");
+        HbmProvider.instOf().standardTransactionCore(session -> {
+            session.delete(temp);
+            return true;
+        });
+        return true;
+    }
 }

@@ -11,7 +11,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id")
     private User creator;
     private Timestamp created;
