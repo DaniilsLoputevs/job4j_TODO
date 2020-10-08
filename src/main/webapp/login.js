@@ -15,16 +15,19 @@ $(function () {
                     server_action: "AUTH_USER",
                     email: email,
                     password: password,
-
                 },
             }).done((data) => {
                 let parseData = JSON.parse(data);
-                // console.log("JSON.parse():", parseData);
-                // console.log("temp.user:", parseData.user);
-                document.getElementById("link-login").innerText = parseData.user;
-                sessionStorage.setItem("user", parseData.user);
 
-                alert("Authorization success!");
+                if (parseData.user === "user Not Founded.") {
+                    alert(parseData.user);
+                } else if (parseData.user === "incorrect Password.") {
+                    alert(parseData.user);
+                } else {
+                    document.getElementById("link-login").innerText = parseData.user;
+                    sessionStorage.setItem("user", parseData.user);
+                    alert("Authorization success!");
+                }
             }).fail((err) => {
                 alert("Error!!! - See console");
                 console.log(err);

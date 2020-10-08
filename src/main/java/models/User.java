@@ -14,6 +14,9 @@ public class User {
     private String email;
     private String password;
 
+    public static final User GUEST = new User(-1, "guest", "email", "password");
+
+
     public User() {
     }
 
@@ -75,7 +78,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Task{"
+        return "User{"
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", email=" + email

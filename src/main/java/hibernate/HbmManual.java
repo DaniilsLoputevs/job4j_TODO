@@ -1,7 +1,7 @@
 package hibernate;
 
-import models.User;
-import store.UserStore;
+import models.Task;
+import store.TaskStore;
 
 public class HbmManual {
         public static void main(String[] args) {
@@ -12,11 +12,15 @@ public class HbmManual {
 //        new TaskStore().add(second);
 //        new TaskStore().add(third);
 
-            var user = new User(0, "testName", "testEmail", "testPassword");
-            UserStore.instOf().add(user);
+//            var user = new User(0, "testName", "testEmail", "testPassword");
+//            UserStore.instOf().add(user);
 
 //            var temp = UserStore.instOf().getByEmail("testEmail");
 //            System.out.println(temp);
+
+            var temp = new Task();
+            TaskStore.instOf().add(temp);
+
             System.out.println("FINISH MANUAL RUN");
     }
 }

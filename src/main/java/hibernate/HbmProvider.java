@@ -47,7 +47,7 @@ public class HbmProvider {
      * @return - return of your function.
      */
     public Object standardTransactionCore(Function<Session, Object> action) {
-        Session session = sf.openSession();
+        Session session = sf.getCurrentSession();
         session.beginTransaction();
 
         Object rsl = action.apply(session);

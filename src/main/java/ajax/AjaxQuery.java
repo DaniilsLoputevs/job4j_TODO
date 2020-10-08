@@ -1,10 +1,12 @@
 package ajax;
 
+import ahelptools.CustomLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Task;
 import models.User;
 import store.TaskStore;
+import store.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -68,18 +70,43 @@ public class AjaxQuery extends HttpServlet {
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) {
         String desc = req.getParameter("desc");
-//        User user = User.of(req.getParameter("user"));
-        User user = new User();
+        String creator = req.getParameter("creator");
+
+        CustomLog.log("desc:" + desc);
+        CustomLog.log("creator:" + creator);
+
+        User user = UserStore.instOf().getByName(creator);
+        CustomLog.log("user:" + user);
+
         Task temp = new Task(-1, desc, new Timestamp(System.currentTimeMillis()), false, user);
+
+        CustomLog.log("temp:" + temp);
         TaskStore.instOf().add(temp);
     }
 
+    /**
+     * very not obvious point.
+     *
+     * @param req  -
+     * @param resp -
+     */
     private void updTable(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            var jsonArr = req.getParameter("tasks");
+            String jsonTasks = req.getParameter("tasks");
+            String jsonCreators = req.getParameter("creators");
+
+//            CustomLog.log("jsonCreators", jsonCreators);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            Task[] tasks = objectMapper.readValue(jsonArr, Task[].class);
+            Task[] tasks = objectMapper.readValue(jsonTasks, Task[].class);
+            String[] users = objectMapper.readValue(jsonCreators, String[].class);
+
+//            CustomLog.log("users", Arrays.toString(users));
+
+            for (int i = 0; i < tasks.length; i++) {
+                User creator = UserStore.instOf().getByName(users[i]);
+                tasks[i].setCreator(creator);
+            }
 
             TaskStore.instOf().updateAll(tasks);
         } catch (JsonProcessingException e) {

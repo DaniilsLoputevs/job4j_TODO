@@ -19,7 +19,7 @@
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-    <script src="ajaxLoadTable.js"></script>
+    <script src="loadTable.js"></script>
     <script src="addNewTask.js"></script>
     <script src="hideDoneTasks.js"></script>
     <script src="saveTable.js"></script>
@@ -44,7 +44,7 @@
                 <div class="col">
                     <form id="newTaskForm">
                         <label>New Task
-                            <input id="task-desc" type="text" class="form-control" placeholder="task description">
+                            <input id="new-task-desc" type="text" class="form-control" placeholder="task description">
                             <button id="btn-add-task" class="btn btn-primary">add Task</button>
                         </label>
                     </form>
@@ -67,6 +67,7 @@
             <tr>
                 <th style="width: 120px">ID</th>
                 <th>Desc</th>
+                <th>Creator</th>
                 <th>Created</th>
                 <th>Done</th>
             </tr>
@@ -105,7 +106,7 @@
                        data-toggle="modal" data-target="#reg-modal">
                         registration
                     </a>
-                    <button id="btn-auth-submit" type="button" class="btn btn-success" data-dismiss="modal">
+                    <button id="btn-auth-submit" class="btn btn-success" data-dismiss="modal">
                         authorization</button>
                 </div>
 

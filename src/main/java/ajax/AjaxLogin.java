@@ -41,10 +41,14 @@ public class AjaxLogin extends HttpServlet {
 
         var user = UserStore.instOf().getByEmail(email);
 
-        if (user != null) {
+        if (user.getName() != null) {
             if (user.getPassword().equals(password)) {
                 writeToResponse(resp, "{\"user\": \"" + user.getName() + "\"}");
+            } else {
+                writeToResponse(resp, "{\"user\": \"incorrect Password.\"}");
             }
+        } else {
+            writeToResponse(resp, "{\"user\": \"user Not Founded.\"}");
         }
     }
 

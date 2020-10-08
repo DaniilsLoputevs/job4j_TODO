@@ -11,14 +11,21 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User creator;
     private Timestamp created;
     private boolean done;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User creator;
 
     public Task() {
+    }
+
+    public Task(int id, String description, Timestamp created, boolean done) {
+        this.id = id;
+        this.description = description;
+        this.created = created;
+        this.done = done;
     }
 
     public Task(int id, String description, Timestamp created, boolean done, User creator) {
@@ -26,7 +33,7 @@ public class Task {
         this.description = description;
         this.created = created;
         this.done = done;
-//        this.creator = creator;
+        this.creator = creator;
     }
 
     public int getId() {
@@ -45,6 +52,14 @@ public class Task {
         this.description = description;
     }
 
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     public Timestamp getCreated() {
         return created;
     }
@@ -60,14 +75,6 @@ public class Task {
     public void setDone(boolean done) {
         this.done = done;
     }
-
-//    public User getCreator() {
-//        return creator;
-//    }
-//
-//    public void setCreator(User creator) {
-//        this.creator = creator;
-//    }
 
     @Override
     public boolean equals(Object o) {
@@ -94,6 +101,7 @@ public class Task {
         return "Task{"
                 + "id=" + id
                 + ", description='" + description + '\''
+                + ", creator=" + creator
                 + ", created=" + created
                 + ", done=" + done
                 + '}';

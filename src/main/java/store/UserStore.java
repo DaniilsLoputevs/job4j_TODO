@@ -6,8 +6,6 @@ import models.User;
 import java.util.List;
 
 public class UserStore {
-    private final HbmProvider hbmProvider = HbmProvider.instOf();
-
     private static final class Lazy {
         private static final UserStore INST = new UserStore();
     }
@@ -17,16 +15,31 @@ public class UserStore {
     }
 
     public void add(User user) {
-        hbmProvider.standardTransactionCore(session -> {
+        HbmProvider.instOf().standardTransactionCore(session -> {
             session.save(user);
             return user;
         });
     }
 
     public User getByEmail(String email) {
-        var temp = (List<User>) hbmProvider.standardTransactionCore(session ->
+        var temp = (List<User>) HbmProvider.instOf().standardTransactionCore(session ->
                 session.createQuery("from User where email="
                         + "\'" + email + "\'")
+                        .list()
+        );
+        if (temp.isEmpty()) {
+            return new User();
+        } else {
+            return temp.get(0);
+        }
+    }
+    public User getByName(String name) {
+        if ("guest".equals(name)) {
+            return User.GUEST;
+        }
+        var temp = (List<User>) HbmProvider.instOf().standardTransactionCore(session ->
+                session.createQuery("from User where name="
+                        + "\'" + name + "\'")
                         .list()
         );
         if (temp.isEmpty()) {
