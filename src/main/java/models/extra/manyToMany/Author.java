@@ -1,4 +1,4 @@
-package models.extra;
+package models.extra.manyToMany;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -6,39 +6,40 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "j_brand")
-public class Brand {
+@Table(name = "ManyToMany_author")
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Car> cars = new ArrayList<>();
+    @ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE})
+//    @ManyToMany(cascade =  CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
 
-    public Brand() {
+    public Author() {
     }
 
-    public Brand(int id, String name, List<Car> cars) {
+    public Author(int id, String name, List<Book> cars) {
         this.id = id;
         this.name = name;
-        this.cars = cars;
+        this.books = cars;
     }
 
-    public static Brand of(String name) {
-        Brand brand = new Brand();
-        brand.name = name;
-        return brand;
+    public static Author of(String name) {
+        Author author = new Author();
+        author.name = name;
+        return author;
     }
 
-    public void addCar(Car car) {
-        this.cars.add(car);
+    public void addBook(Book book) {
+        this.books.add(book);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Brand brand = (Brand) o;
+        Author brand = (Author) o;
         return Objects.equals(id, brand.id) &&
                 Objects.equals(name, brand.name);
     }
@@ -59,12 +60,12 @@ public class Brand {
         this.name = name;
     }
 
-    public List<Car> getCars() {
-        return cars;
+    public List<Book> getCars() {
+        return books;
     }
 
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
+    public void setCars(List<Book> cars) {
+        this.books = cars;
     }
 
     @Override
@@ -74,10 +75,10 @@ public class Brand {
 
     @Override
     public String toString() {
-        return "Brand{"
+        return "Author{"
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
-                + ", cars=" + cars
+                + ", cars=" + books
                 + '}';
     }
 }

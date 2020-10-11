@@ -22,7 +22,10 @@
         <mapping class="models.Task" />
         <mapping class="models.User" />
 
-        <mapping class="models.extra.Brand" />
-        <mapping class="models.extra.Car" />
+<!--        <mapping class="models.extra.manyToOne.Brand" />-->
+<!--        <mapping class="models.extra.manyToOne.Car" />-->
+
+        <mapping class="models.extra.manyToMany.Author" />
+        <mapping class="models.extra.manyToMany.Book" />
     </session-factory>
 </hibernate-configuration>

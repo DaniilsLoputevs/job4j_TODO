@@ -1,12 +1,12 @@
 package hibernate;
 
-import models.extra.Brand;
-import models.extra.Car;
+import models.extra.manyToMany.Author;
+import models.extra.manyToMany.Book;
 
 import java.util.List;
 
 public class HbmManual {
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 //        var first = new Task(1, "first", null, false);
 //        var second = new Task(2, "second", null, false);
 //        var third = new Task(3, "third", null, false);
@@ -25,20 +25,27 @@ public class HbmManual {
 
 
 
-            var brand = Brand.of("Katra");
 
-            List.of(Car.of("A100"),
-                    Car.of("A200"),
-                    Car.of("A300"),
-                    Car.of("A400"),
-                    Car.of("A500")
-            ).forEach(brand::addCar);
+        Author anatolij = Author.of("Anatolij");
+        Author vera = Author.of("Vera");
 
-            HbmProvider.instOf().standardTransactionCore(session ->
-                    session.save(brand)
-            );
+        Book bookOne = Book.of("Music Magic");
+        Book bookTwo = Book.of("The Witcher 3");
+
+//        HbmProvider.instOf().standardTransactionCore(session -> session.save(anatolij));
+//        HbmProvider.instOf().standardTransactionCore(session -> session.save(bookOne));
 
 
-            System.out.println("FINISH MANUAL RUN");
+        List.of(bookOne, bookTwo).forEach(anatolij::addBook);
+        List.of(bookOne).forEach(vera::addBook);
+
+        HbmProvider.instOf().standardTransactionCore(session -> {
+            session.persist(anatolij);
+            session.persist(vera);
+            return null;
+        });
+
+
+        System.out.println("FINISH MANUAL RUN");
     }
 }
