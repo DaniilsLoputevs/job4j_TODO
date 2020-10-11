@@ -21,5 +21,8 @@
 
         <mapping class="models.Task" />
         <mapping class="models.User" />
+
+        <mapping class="models.extra.Brand" />
+        <mapping class="models.extra.Car" />
     </session-factory>
 </hibernate-configuration>

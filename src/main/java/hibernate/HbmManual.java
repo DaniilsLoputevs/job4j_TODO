@@ -1,7 +1,9 @@
 package hibernate;
 
-import models.Task;
-import store.TaskStore;
+import models.extra.Brand;
+import models.extra.Car;
+
+import java.util.List;
 
 public class HbmManual {
         public static void main(String[] args) {
@@ -18,8 +20,24 @@ public class HbmManual {
 //            var temp = UserStore.instOf().getByEmail("testEmail");
 //            System.out.println(temp);
 
-            var temp = new Task();
-            TaskStore.instOf().add(temp);
+//            var temp = new Task();
+//            TaskStore.instOf().add(temp);
+
+
+
+            var brand = Brand.of("Katra");
+
+            List.of(Car.of("A100"),
+                    Car.of("A200"),
+                    Car.of("A300"),
+                    Car.of("A400"),
+                    Car.of("A500")
+            ).forEach(brand::addCar);
+
+            HbmProvider.instOf().standardTransactionCore(session ->
+                    session.save(brand)
+            );
+
 
             System.out.println("FINISH MANUAL RUN");
     }
