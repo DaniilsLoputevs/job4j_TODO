@@ -27,5 +27,8 @@
 
         <mapping class="models.extra.manyToMany.Author" />
         <mapping class="models.extra.manyToMany.Book" />
+
+        <mapping class="models.extra.lazyInit.Brand" />
+        <mapping class="models.extra.lazyInit.Car" />
     </session-factory>
 </hibernate-configuration>
