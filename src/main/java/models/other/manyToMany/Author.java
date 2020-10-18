@@ -1,4 +1,4 @@
-package models.extra.manyToMany;
+package models.other.manyToMany;
 
 import javax.persistence.*;
 import java.util.ArrayList;

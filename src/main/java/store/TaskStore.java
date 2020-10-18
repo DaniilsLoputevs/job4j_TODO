@@ -2,7 +2,6 @@ package store;
 
 import hibernate.HbmProvider;
 import models.Task;
-import models.User;
 
 import java.util.List;
 
@@ -16,34 +15,26 @@ public class TaskStore {
     }
 
 
+    /* Class description */
+    private final BasicHbmStore<Task> core = new BasicHbmStore<>();
+
+
     public void add(Task task) {
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            session.save(task);
-            return task;
-        });
+      core.add(task);
     }
 
     public Task getById(int id) {
-        return (Task) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery("from Task where id=" + id)
-                        .getSingleResult()
-        );
+      return core.getById(id, "Task", "categories");
     }
 
     public List<Task> getAll() {
-        return (List<Task>) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery("from Task")
-                        .list()
-        );
+        return core.getAll("Task", "categories");
     }
 
     public boolean delete(int id) {
-        Task temp = new Task(id, "", null, false, new User());
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            session.delete(temp);
-            return true;
-        });
-        return true;
+        Task temp = new Task();
+        temp.setId(id);
+       return core.delete(temp);
     }
 
     public boolean update(Task task) {
@@ -53,8 +44,8 @@ public class TaskStore {
         });
     }
 
-    public boolean updateAll(Task... tasks) {
-        return (boolean) HbmProvider.instOf().standardTransactionCore(session -> {
+    public void updateAll(Task... tasks) {
+        HbmProvider.instOf().standardTransactionCore(session -> {
             for (Task task : tasks) {
                 session.update(task);
             }

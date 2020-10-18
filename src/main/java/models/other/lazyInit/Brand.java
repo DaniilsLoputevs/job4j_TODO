@@ -1,4 +1,4 @@
-package models.extra.lazyInit;
+package models.other.lazyInit;
 
 import javax.persistence.*;
 import java.util.ArrayList;

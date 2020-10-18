@@ -1,22 +1,39 @@
 package ahelptools;
 
-import store.UserStore;
+import models.Task;
+import store.TaskStore;
+
+import java.util.List;
 
 /**
  * manual tool - not for production.
  */
 public class ManualExperiment {
 
-//    public static String dateFormat(String format, Calendar calendar) {
-//        var temp = new Timestamp(1602163405287);
-//        return new SimpleDateFormat(format).format(temp);
-//    }
 
     public static void main(String[] args) {
-        CustomLog.log("START");
-//        UserStore.instOf().add(new User(777, "rootNew", "root", "root"));
-        UserStore.instOf().delete(34);
-        CustomLog.log("FINISH");
+        List<Task> taskList = TaskStore.instOf().getAll();
+//        CustomLog.log("taskList", taskList);
+
+//        try (var writer = new PrintWriter(resp.getOutputStream())) {
+//            ObjectMapper objectMapper = new ObjectMapper();
+
+
+//        try {
+//            new ObjectMapper().writeValue(writer, taskList);
+//            new ObjectMapper().writeValue(System.out, taskList);
+
+            CustomLog.log("NEW\r\n \r\n");
+            CustomLog.log("to Json", taskList.get(0).toJson());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+//            writer.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

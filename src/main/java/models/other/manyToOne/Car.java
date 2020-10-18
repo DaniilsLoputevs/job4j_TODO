@@ -1,28 +1,28 @@
-package models.extra.manyToMany;
+package models.other.manyToOne;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ManyToMany_book")
-public class Book {
+@Table(name = "j_car")
+public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
-    public Book() {
+    public Car() {
     }
 
-    public Book(int id, String name) {
+    public Car(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public static Book of(String name) {
-        Book book = new Book();
-        book.name = name;
-        return book;
+    public static Car of(String name) {
+        Car car = new Car();
+        car.name = name;
+        return car;
     }
 
     public int getId() {
@@ -45,7 +45,7 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book car = (Book) o;
+        Car car = (Car) o;
         return Objects.equals(id, car.id) &&
                 Objects.equals(name, car.name);
     }
@@ -57,7 +57,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{"
+        return "Car{"
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
                 + '}';

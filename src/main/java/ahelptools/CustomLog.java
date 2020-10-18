@@ -10,11 +10,16 @@ public class CustomLog {
     private static final String PREFIX = "Custom LOG: ";
 
     public static void log(String desc, Object obj) {
-//        if (isArray(obj)) {
+        if (obj instanceof String) {
+            log(desc + ": |" + obj + '|');
+        } else {
+            log(desc + ": " + obj);
+        }
+//      else if (isArray(obj)) {
 //            logArray(obj, desc);
 //            System.out.println("nice");
 //        } else {
-            log(desc + ": " + obj);
+
 //        }
     }
 

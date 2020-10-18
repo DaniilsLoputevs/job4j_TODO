@@ -1,8 +1,8 @@
 package hibernate;
 
 import ahelptools.CustomLog;
-import models.extra.lazyInit.Brand;
-import models.extra.lazyInit.Car;
+import models.other.lazyInit.Brand;
+import models.other.lazyInit.Car;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

@@ -1,38 +1,39 @@
 $(document).ready(() => {
-    /* without this var - script will not work, DON'T touch!
-     * without transferring ${data[]} to ${arr[]} it will not work.
-     */
-    const seatList = [];
     $.ajax({
         type: 'GET',
         crossdomain: true,
         url: getContextPath() + '/tasks.ajax',
+        data: {
+            server_action: "GET_TABLE"
+        }
     }).done((data) => {
         for (let i = 0; i < data.length; i++) {
-            seatList.push(data[i]);
-        }
-
-        for (let i = 0; i < seatList.length; i++) {
-            let seat = seatList[i];
+            // prepare data
+            let task = data[i];
             let checkValue = "";
             let rsl = ``;
+            let categoryName = "";
 
-            if (seat.done === true) {
+            if (task.done === true) {
                 checkValue = "checked";
             }
-
+            for (let j = 0; j < task.category.length; j++) {
+                categoryName += task.category[j].name + ", ";
+            }
+            categoryName = categoryName.substring(0, categoryName.length - 2);
+            // prepare form
             rsl += `
                 <tr id="line">
-                <td>${seat.id}</td>
-                <td>${seat.description} </td>
-                <td>${seat.creator.name} </td>
-                <td>${seat.created} </td>
-                <td><input id="check-id${seat.id}" type="checkbox" class="check" name="table-line" ${checkValue}></td>
+                <td>${task.id}</td>
+                <td>${task.description} </td>
+                <td>${categoryName} </td>
+                <td>${task.creator} </td>
+                <td>${task.created} </td>
+                <td><input id="check-id${task.id}" type="checkbox" class="check" name="table-line" ${checkValue}></td>
                 </tr>
                 `;
+            // set form
             $('#tableBody tr:last').after(rsl);
-            rsl = '';
-            checkValue = "";
         }
     }).fail((err) => {
         alert("Error!!! - See console");

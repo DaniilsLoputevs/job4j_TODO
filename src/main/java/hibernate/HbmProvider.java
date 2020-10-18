@@ -23,6 +23,11 @@ public class HbmProvider {
     }
 
     /**
+     * just for clear understanding that this transaction haven't return value.
+     */
+    public static final int RETURN_VOID = -1;
+
+    /**
      * Public API for shortcut in ModelStore classes.
      * Example: {@code
      * public class UserStore {
@@ -45,6 +50,7 @@ public class HbmProvider {
      *               });
      *               }
      * @return - return of your function.
+     * #see const RETURN_VOID
      */
     public Object standardTransactionCore(Function<Session, Object> action) {
         Session session = sf.getCurrentSession();

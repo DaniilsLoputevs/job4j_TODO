@@ -1,4 +1,4 @@
-package models.extra.manyToOne;
+package models.other.manyToOne;
 
 import javax.persistence.*;
 import java.util.ArrayList;

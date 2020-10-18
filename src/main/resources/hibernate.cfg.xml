@@ -8,7 +8,7 @@
         <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/job4j_todo</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">password</property>
-        <property name="hibernate.connection.pool_size">2</property>
+        <property name="hibernate.connection.pool_size">4</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
@@ -21,14 +21,15 @@
 
         <mapping class="models.Task" />
         <mapping class="models.User" />
+        <mapping class="models.Category" />
 
-<!--        <mapping class="models.extra.manyToOne.Brand" />-->
-<!--        <mapping class="models.extra.manyToOne.Car" />-->
+<!--        <mapping class="models.other.manyToOne.Brand" />-->
+<!--        <mapping class="models.other.manyToOne.Car" />-->
 
-        <mapping class="models.extra.manyToMany.Author" />
-        <mapping class="models.extra.manyToMany.Book" />
+        <mapping class="models.other.manyToMany.Author" />
+        <mapping class="models.other.manyToMany.Book" />
 
-        <mapping class="models.extra.lazyInit.Brand" />
-        <mapping class="models.extra.lazyInit.Car" />
+        <mapping class="models.other.lazyInit.Brand" />
+        <mapping class="models.other.lazyInit.Car" />
     </session-factory>
 </hibernate-configuration>

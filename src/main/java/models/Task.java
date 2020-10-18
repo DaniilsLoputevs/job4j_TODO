@@ -1,8 +1,15 @@
 package models;
 
+import ajax.webhelp.DateTransform;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
+
+import static ajax.webhelp.JC.*;
 
 @Entity
 @Table(name = "tasks")
@@ -11,7 +18,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @ManyToMany(cascade = {PERSIST, MERGE, REMOVE, REFRESH, DETACH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn(name = "category_id")
+    private List<Category> categories;
+
+    //    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "user_id")
     private User creator;
     private Timestamp created;
@@ -21,19 +38,25 @@ public class Task {
     public Task() {
     }
 
-    public Task(int id, String description, Timestamp created, boolean done) {
-        this.id = id;
+    public Task(String description, List<Category> categories, User creator) {
+//        Task temp = new Task(-1, desc, categories,
+//                new Timestamp(System.currentTimeMillis()), false, user);
+        this.id = -1;
         this.description = description;
-        this.created = created;
-        this.done = done;
+        this.categories = categories;
+        this.created = new Timestamp(System.currentTimeMillis());
+        this.done = false;
+        this.creator = creator;
     }
 
-    public Task(int id, String description, Timestamp created, boolean done, User creator) {
+    public Task(int id, String description, List<Category> categories,
+                Timestamp created, boolean done, User creator) {
         this.id = id;
         this.description = description;
+        this.categories = categories;
         this.created = created;
         this.done = done;
-        this.creator = creator;
+
     }
 
     public int getId() {
@@ -50,6 +73,14 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Category> getCategory() {
+        return categories;
+    }
+
+    public void setCategory(List<Category> categories) {
+        this.categories = categories;
     }
 
     public User getCreator() {
@@ -88,6 +119,8 @@ public class Task {
         return id == task.id
                 && done == task.done
                 && Objects.equals(description, task.description)
+                && Objects.equals(categories, task.categories)
+                && Objects.equals(creator, task.creator)
                 && Objects.equals(created, task.created);
     }
 
@@ -101,9 +134,30 @@ public class Task {
         return "Task{"
                 + "id=" + id
                 + ", description='" + description + '\''
+                + ", categories='" + categories + '\''
                 + ", creator=" + creator
                 + ", created=" + created
                 + ", done=" + done
                 + '}';
+    }
+
+    public String toJson() {
+        String[] tempCategoryJsonArr = new String[this.categories.size()];
+        for (int i = 0; i < this.categories.size(); i++) {
+            var tempCategory = this.categories.get(i);
+            tempCategoryJsonArr[i] = wrapObject(
+                    collect("id", tempCategory.getId()),
+                    collect("name", tempCategory.getName())
+            );
+        }
+        String categories = wrapList(tempCategoryJsonArr);
+        return wrapObject(
+                collect("id", this.id),
+                collect("description", this.description),
+                collect("creator", this.creator.getName()),
+                collect("created", DateTransform.toFront(this.created)),
+                collect("done", this.getDescription()),
+                collect("category", categories)
+        );
     }
 }

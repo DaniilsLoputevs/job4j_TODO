@@ -1,28 +1,39 @@
-package models.extra.manyToOne;
+package models;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "j_car")
-public class Car {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private String name;
 
-    public Car() {
+    public Category() {
     }
 
-    public Car(int id, String name) {
+    public Category(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public static Car of(String name) {
-        Car car = new Car();
-        car.name = name;
-        return car;
+    public static Category of(String name) {
+        Category category = new Category();
+        category.name = name;
+        return category;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category brand = (Category) o;
+        return Objects.equals(id, brand.id) &&
+                Objects.equals(name, brand.name);
     }
 
     public int getId() {
@@ -41,23 +52,13 @@ public class Car {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(id, car.id) &&
-                Objects.equals(name, car.name);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
-        return "Car{"
+        return "Category{"
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
                 + '}';
