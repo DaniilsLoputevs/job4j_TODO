@@ -1,6 +1,5 @@
 package store;
 
-import hibernate.HbmProvider;
 import models.User;
 
 import java.util.List;
@@ -14,9 +13,8 @@ public class UserStore {
         return UserStore.Lazy.INST;
     }
 
-
     /* Class description */
-    private final BasicHbmStore<User> core = new BasicHbmStore<>();
+    private final BasicHbmStore<User> core = new BasicHbmStore<>("User");
 
 
     public void add(User user) {
@@ -24,34 +22,22 @@ public class UserStore {
     }
 
     public User getByEmail(String email) {
-        var temp = (List<User>) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery("from User where email="
-                        + "\'" + email + "\'")
-                        .list()
-        );
+        var temp = core.getBy("email", email);
         return getUserOrEmptyUser(temp);
     }
 
     public User getByName(String name) {
-        var temp = (List<User>) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery("from User where name="
-                        + "\'" + name + "\'")
-                        .list()
-        );
+        var temp = core.getBy("name", name);
         return getUserOrEmptyUser(temp);
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         var temp = new User();
         temp.setId(id);
-        return core.delete(temp);
+        core.delete(temp);
     }
 
     private User getUserOrEmptyUser(List<User> list) {
-        if (list.isEmpty()) {
-            return new User();
-        } else {
-            return list.get(0);
-        }
+        return (list.isEmpty()) ? new User() : list.get(0);
     }
 }

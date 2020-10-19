@@ -1,18 +1,30 @@
 package ahelptools;
 
-import models.Task;
-import store.TaskStore;
-
-import java.util.List;
-
 /**
  * manual tool - not for production.
  */
-public class ManualExperiment {
-
+public class ManualExperiment<T> {
 
     public static void main(String[] args) {
-        List<Task> taskList = TaskStore.instOf().getAll();
+//       var rsl = CategoryStore.instOf().getById(20);
+//       var rsl = CategoryStore.instOf().getByName("First Category");
+//       var rsl = CategoryStore.instOf().getAll();
+//       CustomLog.log("rsl", rsl);
+
+//        CategoryStore.instOf().addAll(List.of(Category.of("try addAll")));
+
+
+
+
+
+//        List<Task> taskList = TaskStore.instOf().getAll();
+//        List<Task> taskListNew = TaskStore.instOf().getAll();
+
+//        CustomLog.log("NEW\r\n \r\n");
+//        CustomLog.log("to Json", taskList.get(0).toJson());
+//        CustomLog.log("NEW\r\n \r\n");
+//        CustomLog.log("to Json", taskListNew.get(0).toJson());
+
 //        CustomLog.log("taskList", taskList);
 
 //        try (var writer = new PrintWriter(resp.getOutputStream())) {
@@ -23,8 +35,10 @@ public class ManualExperiment {
 //            new ObjectMapper().writeValue(writer, taskList);
 //            new ObjectMapper().writeValue(System.out, taskList);
 
-            CustomLog.log("NEW\r\n \r\n");
-            CustomLog.log("to Json", taskList.get(0).toJson());
+//            CustomLog.log("NEW\r\n \r\n");
+//            CustomLog.log("to Json", taskList.get(0).toJson());
+
+
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

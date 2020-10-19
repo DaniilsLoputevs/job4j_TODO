@@ -22,7 +22,6 @@ $(function () {
             let jsonTask = JSON.stringify({
                 id: dataId,
                 description: dataDesc,
-                // created: dataCreated,
                 done: dataDone
             });
 

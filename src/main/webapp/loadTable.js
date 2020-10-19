@@ -7,16 +7,20 @@ $(document).ready(() => {
             server_action: "GET_TABLE"
         }
     }).done((data) => {
+        // console.log("data");
+        // console.log(data);
         for (let i = 0; i < data.length; i++) {
             // prepare data
             let task = data[i];
-            let checkValue = "";
             let rsl = ``;
+            let checkValue = "";
             let categoryName = "";
 
             if (task.done === true) {
                 checkValue = "checked";
             }
+            // console.log("data N" + i, data[i]);
+            // console.log("checkValue", checkValue);
             for (let j = 0; j < task.category.length; j++) {
                 categoryName += task.category[j].name + ", ";
             }

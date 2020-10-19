@@ -156,7 +156,7 @@ public class Task {
                 collect("description", this.description),
                 collect("creator", this.creator.getName()),
                 collect("created", DateTransform.toFront(this.created)),
-                collect("done", this.getDescription()),
+                collect("done", this.isDone()),
                 collect("category", categories)
         );
     }

@@ -1,6 +1,5 @@
 package store;
 
-import hibernate.HbmProvider;
 import models.Category;
 
 import java.util.List;
@@ -15,9 +14,8 @@ public class CategoryStore {
         return CategoryStore.Lazy.INST;
     }
 
-
     /* Class description */
-    private final BasicHbmStore<Category> core = new BasicHbmStore<>();
+    private final BasicHbmStore<Category> core = new BasicHbmStore<>("Category");
 
 
     public void add(Category category) {
@@ -29,25 +27,22 @@ public class CategoryStore {
     }
 
     public Category getById(int id) {
-        return core.getById(id, "Category");
+        List<Category> temp = core.getBy("id", id);
+        return (temp.isEmpty()) ? new Category() : temp.get(0);
     }
 
     public Category getByName(String name) {
-        var temp = (List<Category>) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery("from Category where name="
-                        + "\'" + name + "\'")
-                        .list()
-        );
+        List<Category> temp = core.getBy("name", name);
         return (temp.isEmpty()) ? new Category() : temp.get(0);
     }
 
     public List<Category> getAll() {
-        return core.getAll("Category");
+        return core.getAll();
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         var temp = new Category();
         temp.setId(id);
-        return core.delete(temp);
+        core.delete(temp);
     }
 }

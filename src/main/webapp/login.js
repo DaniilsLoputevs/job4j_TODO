@@ -74,3 +74,12 @@ $(function () {
 
     });
 });
+
+// Identify user (Login(guest) || userName)
+$(document).ready(() => {
+    let loginHrefName = sessionStorage.getItem("user");
+    if (loginHrefName == null) {
+        loginHrefName = "Login";
+    }
+    document.getElementById("link-login").innerText = loginHrefName;
+});

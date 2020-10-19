@@ -1,25 +1,23 @@
 package hibernate;
 
-import models.Category;
-import models.User;
-import store.CategoryStore;
-import store.UserStore;
-
-import java.util.List;
+import ahelptools.CustomLog;
+import store.TaskStore;
 
 public class HbmManualTableWork {
     public static void main(String[] args) {
 
         // init Table users
-        UserStore.instOf().add(User.GUEST);
+//        UserStore.instOf().add(User.GUEST);
 
         // init Table categories
-        CategoryStore.instOf().addAll(List.of(
-                Category.of("First Category"),
-                Category.of("Second Category"),
-                Category.of("Fourth Category"),
-                Category.of("Fifth Category")
-        ));
+//        CategoryStore.instOf().addAll(List.of(
+//                Category.of("First Category"),
+//                Category.of("Second Category"),
+//                Category.of("Fourth Category"),
+//                Category.of("Fifth Category")
+//        ));
+
+
 
         // update Table tasks
 //        var categories = List.of(CategoryStore.instOf().getByName("updTaskTable"));
@@ -53,6 +51,9 @@ public class HbmManualTableWork {
 //        CustomLog.log("task", qwer);
 //        CustomLog.log("task", TaskStore.instOf().getAll());
 
+
+        var list = TaskStore.instOf().getAll();
+        CustomLog.log("list", list);
     }
 
 }

@@ -8,84 +8,38 @@ import java.util.List;
  * Just shared code in one place.
  */
 public class BasicHbmStore<T> {
+    private final String modelClassName;
 
-    /**
-     * Automatically set id for @param item.
-     *
-     * @param item -
-     */
+    public BasicHbmStore(String modelClassName) {
+        this.modelClassName = modelClassName;
+    }
+
+
     public void add(T item) {
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            session.save(item);
-            return item;
-        });
+        HbmProvider.instOf().saveModel(item);
     }
+
     public void addAll(List<T> items) {
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            for (T item : items) {
-                session.save(item);
-            }
-            return HbmProvider.RETURN_VOID;
-        });
-    }
-    public T getById(int id, String modelClassName) {
-        return getById(id, modelClassName, "");
+        HbmProvider.instOf().voidTransaction(session -> items.forEach(session::save));
     }
 
-    /**
-     * final hql = "
-     * from modelClassName as mainTable
-     * join fetch mainTable.useJoinFetchFieldName
-     * where mainTable.id=id
-     * ";
-     *
-     * @param id - id in DataBase.
-     * @param modelClassName - model class name. Example: User, Item.
-     * @param useJoinFetchFieldName - name of private field in model that you want to fetch.
-     *                              Example: private List<User> users;
-     *                              useJoinFetchFieldName = "users";
-     * @return -
-     */
-    public T getById(int id, String modelClassName, String useJoinFetchFieldName) {
-        StringBuilder builder = new StringBuilder("from ");
-        builder.append(modelClassName);
-        builder.append(" as mainTable ");
-        if (!useJoinFetchFieldName.isBlank()) {
-            builder.append("join fetch mainTable.");
-            builder.append(useJoinFetchFieldName);
-        }
-        builder.append(" where mainTable.id=");
-        builder.append(id);
-        String hql = builder.toString();
+    public <V> List<T> getBy(String fieldName, V value) {
+        var hql = "from " + modelClassName + " as mt where mt." + fieldName + "="
+                + '\'' + value + '\'';
 //        CustomLog.log("hql", hql);
-        return (T) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery(hql)
-                        .getSingleResult()
-        );
+        return HbmProvider.instOf().exeQueryList(hql);
     }
 
-    public List<T> getAll(String tableName) {
-        return getAll(tableName, "");
-    }
-    public List<T> getAll(String tableName, String useJoinFetchFieldName) {
-        String hql = "from " + tableName + " as mainTable";
-        if (!"".equalsIgnoreCase(useJoinFetchFieldName)) {
-            hql += " join fetch mainTable." + useJoinFetchFieldName;
-        }
-        String effectivelyFinalHql = hql;
-//        CustomLog.log("GetAll() - final hql", effectivelyFinalHql);
-
-        return (List<T>) HbmProvider.instOf().standardTransactionCore(session ->
-                session.createQuery(effectivelyFinalHql)
-                        .list()
-        );
+    public List<T> getAll() {
+        String hql = "from " + modelClassName;
+        return HbmProvider.instOf().exeQueryList(hql);
     }
 
-    public boolean delete(T item) {
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            session.delete(item);
-            return HbmProvider.RETURN_VOID;
-        });
-        return true;
+    public void delete(T item) {
+        HbmProvider.instOf().deleteModel(item);
+    }
+
+    public void update(T model) {
+        HbmProvider.instOf().updateModel(model);
     }
 }

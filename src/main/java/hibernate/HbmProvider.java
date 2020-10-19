@@ -6,11 +6,13 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * This class describe technical Hibernate part.
- * User public API for use HBM function, this all that you need to know about it.
+ * This class is low level abstraction functionality of Hibernate.
+ * This public API use for create higher abstraction level of MVC.
  */
 public class HbmProvider {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -23,44 +25,68 @@ public class HbmProvider {
     }
 
     /**
-     * just for clear understanding that this transaction haven't return value.
-     */
-    public static final int RETURN_VOID = -1;
-
-    /**
-     * Public API for shortcut in ModelStore classes.
-     * Example: {@code
-     * public class UserStore {
-     * private final HbmProvider hbmProvider = HbmProvider.instOf();
-     * ...
-     * }
-     * }
-     *
-     * @return inst of HbmProvider.
+     * Lazy Singleton.
      */
     public static HbmProvider instOf() {
         return HbmProvider.Lazy.INST;
     }
 
+
+    public <T> void saveModel(T model) {
+        defaultTransaction(session -> session.save(model));
+    }
+
+    public <T> void deleteModel(T model) {
+        voidTransaction(session -> session.delete(model));
+    }
+
+    public <T> void updateModel(T model) {
+        voidTransaction(session -> session.update(model));
+    }
+
+    public <T> T exeQuerySingleRsl(String query) {
+        return (T) defaultTransaction(session -> session.createQuery(query).getSingleResult());
+    }
+
+    public <T> List<T> exeQueryList(String query) {
+        return (List<T>) defaultTransaction(session -> session.createQuery(query).list());
+    }
+
+    public void exeQueryVoid(String query) {
+        defaultTransaction(session -> session.createQuery(query).executeUpdate());
+    }
+
     /**
+     * default transaction, - use for write complex query on HQL.
+     *
      * @param action - action with HBM. example: {@code
      *               standardTransactionCore(session -> {
      *               session.save(modelExample);
      *               return modelExample;
      *               });
      *               }
-     * @return - return of your function.
-     * #see const RETURN_VOID
+     * @return - return result of your function.
      */
-    public Object standardTransactionCore(Function<Session, Object> action) {
+    private Object defaultTransaction(Function<Session, Object> action) {
         Session session = sf.getCurrentSession();
         session.beginTransaction();
 
-        Object rsl = action.apply(session);
+        var rsl = action.apply(session);
 
         session.getTransaction().commit();
         session.close();
-
         return rsl;
     }
+
+    /**
+     * The same that defaultTransaction() but without return type.
+     * @param action -
+     */
+    public void voidTransaction(Consumer<Session> action) {
+        defaultTransaction(session -> {
+            action.accept(session);
+            return null;
+        });
+    }
+
 }

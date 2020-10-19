@@ -1,8 +1,8 @@
 package ajax;
 
-import ahelptools.CustomLog;
 import ajax.webhelp.DateTransform;
 import ajax.webhelp.JC;
+import ajax.webhelp.ResponseIo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Category;
@@ -17,10 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static ajax.webhelp.ResponseIo.writeToResponse;
 
 /**
  * url-pattern: /tasks.ajax
@@ -37,6 +38,7 @@ public class AjaxQuery extends HttpServlet {
             throws ServletException, IOException {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setCharacterEncoding("UTF-8");
+
         String action = req.getParameter("server_action");
 //        CustomLog.log("server action", action);
         if ("GET_TABLE".equals(action)) {
@@ -57,24 +59,14 @@ public class AjaxQuery extends HttpServlet {
 
 //        CustomLog.log("tasksJson", tasksJson);
 
-        try (var writer = new PrintWriter(resp.getOutputStream())) {
-            writer.write(tasksJson);
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeToResponse(resp, tasksJson);
     }
 
     private void sendCategories(HttpServletRequest req, HttpServletResponse resp) {
         List<Category> categories = CategoryStore.instOf().getAll();
 //        CustomLog.log("categories", categories);
 
-        try (var writer = new PrintWriter(resp.getOutputStream())) {
-            new ObjectMapper().writeValue(writer, categories);
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ResponseIo.writeToResponseJacksonObjectMapper(resp, categories);
     }
 
     /**
@@ -136,11 +128,11 @@ public class AjaxQuery extends HttpServlet {
 
 
     /**
-     * very not obvious point.
-     * From front we get Task[] BUT without param "creator"(User class).
-     * This param with get as well, but only as String[].
-     * We need to convert this User.name into User by found this user in DB by Name.
-     * Finally, we found all "creators" and we set it in Task[] in forEach.
+     * Very not obvious point.
+     *
+     * Model sending by parts because for whole Model we need to get whole inner models.
+     * From front we get part of inner models(name || id) we need to get whole
+     * and set in Task like a fields.
      *
      * @param req  -
      * @param resp -
@@ -152,9 +144,8 @@ public class AjaxQuery extends HttpServlet {
             String jsonCreators = req.getParameter("creators");
             String createdDates = req.getParameter("createdDates");
 
-
-            CustomLog.log("jsonCreators", jsonCreators);
-            CustomLog.log("jsonCategories", jsonCategories);
+//            CustomLog.log("jsonCreators", jsonCreators);
+//            CustomLog.log("jsonCategories", jsonCategories);
 
             ObjectMapper objectMapper = new ObjectMapper();
             Task[] tasks = objectMapper.readValue(jsonTasks, Task[].class);
@@ -177,10 +168,10 @@ public class AjaxQuery extends HttpServlet {
                 tasks[i].setCreated(DateTransform.toBack(dates[i]));
             }
 
-            var log = Arrays.asList(tasks);
-            CustomLog.log("taskList", log);
+//            String log = Arrays.asList(tasks);
+//            CustomLog.log("taskList", log);
 
-            TaskStore.instOf().updateAll(tasks);
+            TaskStore.instOf().updateAll(Arrays.asList(tasks));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

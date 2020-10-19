@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import static ajax.webhelp.ResponseIo.writeToResponse;
 
 /**
  * url-pattern: /login.ajax
@@ -30,35 +31,24 @@ public class AjaxLogin extends HttpServlet {
         if ("AUTH_USER".equals(action)) {
             authorizeUser(req, resp);
         }
-
     }
 
     private void authorizeUser(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("text/json");
 
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        String authEmail = req.getParameter("email");
+        String authPassword = req.getParameter("password");
 
-        var user = UserStore.instOf().getByEmail(email);
+        User user = UserStore.instOf().getByEmail(authEmail);
+        String answer;
 
         if (user.getName() != null) {
-            if (user.getPassword().equals(password)) {
-                writeToResponse(resp, "{\"user\": \"" + user.getName() + "\"}");
-            } else {
-                writeToResponse(resp, "{\"user\": \"incorrect Password.\"}");
-            }
+            answer = (user.getPassword().equals(authPassword)) ?
+                    user.getName() : "incorrect Password.";
         } else {
-            writeToResponse(resp, "{\"user\": \"user Not Founded.\"}");
+            answer = "user Not Founded.";
         }
-    }
-
-    private <T> void writeToResponse(HttpServletResponse resp, T string) {
-        try (var writer = new PrintWriter(resp.getOutputStream())) {
-            writer.write((String) string);
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeToResponse(resp, "{\"user\": \"" + answer + "\"}");
     }
 
     /**

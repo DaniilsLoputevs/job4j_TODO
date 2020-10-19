@@ -14,43 +14,35 @@ public class TaskStore {
         return TaskStore.Lazy.INST;
     }
 
-
     /* Class description */
-    private final BasicHbmStore<Task> core = new BasicHbmStore<>();
+    private final BasicHbmStore<Task> core = new BasicHbmStore<>("Task");
 
 
     public void add(Task task) {
-      core.add(task);
+        core.add(task);
     }
 
     public Task getById(int id) {
-      return core.getById(id, "Task", "categories");
+        String temp = "from Task as mt join fetch mt.categories where mt.id=" + id;
+        return HbmProvider.instOf().exeQuerySingleRsl(temp);
     }
 
     public List<Task> getAll() {
-        return core.getAll("Task", "categories");
+        String temp = "select distinct mt from Task as mt join fetch mt.categories";
+        return HbmProvider.instOf().exeQueryList(temp);
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         Task temp = new Task();
         temp.setId(id);
-       return core.delete(temp);
+        core.delete(temp);
     }
 
-    public boolean update(Task task) {
-        return (boolean) HbmProvider.instOf().standardTransactionCore(session -> {
-            session.update(task);
-            return true;
-        });
+    public void update(Task task) {
+        core.update(task);
     }
 
-    public void updateAll(Task... tasks) {
-        HbmProvider.instOf().standardTransactionCore(session -> {
-            for (Task task : tasks) {
-                session.update(task);
-            }
-            return true;
-        });
+    public void updateAll(List<Task> tasks) {
+        HbmProvider.instOf().voidTransaction(session -> tasks.forEach(session::update));
     }
-
 }
