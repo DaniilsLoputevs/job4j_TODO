@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ajax.webhelp.ResponseIo.writeToResponse;
+import static ajax.webhelp.ResponseIo.writeToResponseJacksonObjectMapper;
 
 /**
  * url-pattern: /login.ajax
@@ -20,8 +20,6 @@ public class AjaxLogin extends HttpServlet {
     /**
      * Processing ajax POST requests:
      * AUTH_USER.
-     *
-     * <p>
      * goto: NONE - ajax script.
      */
     @Override
@@ -43,23 +41,17 @@ public class AjaxLogin extends HttpServlet {
         String answer;
 
         if (user.getName() != null) {
-            answer = (user.getPassword().equals(authPassword)) ?
-                    user.getName() : "incorrect Password.";
+            answer = (user.getPassword().equals(authPassword))
+                    ? user.getName() : "incorrect Password.";
         } else {
             answer = "user Not Founded.";
         }
-        writeToResponse(resp, "{\"user\": \"" + answer + "\"}");
+        writeToResponseJacksonObjectMapper(resp, answer);
     }
 
     /**
      * Processing all ajax POST requests:
      * REG_USER
-     * <p>
-     * server_action : String - how to processing this request.
-     * name : String - input from Front
-     * email : String - input from Front
-     * password : String - input from Front
-     * <p>
      * goto: NONE - ajax script.
      */
     @Override
@@ -76,7 +68,6 @@ public class AjaxLogin extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        User temp = new User(-1, name, email, password);
-        UserStore.instOf().add(temp);
+        UserStore.instOf().add(new User(-1, name, email, password));
     }
 }

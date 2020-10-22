@@ -1,7 +1,5 @@
 package ajax.webhelp;
 
-import ahelptools.CustomLog;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,20 +24,22 @@ public class DateTransform {
         return rsl;
     }
 
-    public static void main(String[] args) {
-        CustomLog.log("START");
-        CustomLog.log("toFront");
-        var timestamp = new Timestamp(Long.parseLong("1602163405287"));
-        CustomLog.log("original", timestamp);
-        CustomLog.log("result  ", toFront(timestamp));
+    /* For future projects, explain how it work. */
 
-
-        CustomLog.log("toBack");
-        String frontTimestamp = "2020-10-08 14:23:25";
-        CustomLog.log("original", frontTimestamp);
-        CustomLog.log("result  ", toBack(frontTimestamp));
-
-
-        CustomLog.log("FINISH");
-    }
+//    public static void main(String[] args) {
+//        CustomLog.log("START");
+//        CustomLog.log("toFront");
+//        var timestamp = new Timestamp(Long.parseLong("1602163405287"));
+//        CustomLog.log("original", timestamp);
+//        CustomLog.log("result  ", toFront(timestamp));
+//
+//
+//        CustomLog.log("toBack");
+//        String frontTimestamp = "2020-10-08 14:23:25";
+//        CustomLog.log("original", frontTimestamp);
+//        CustomLog.log("result  ", toBack(frontTimestamp));
+//
+//
+//        CustomLog.log("FINISH");
+//    }
 }

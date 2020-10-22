@@ -1,4 +1,4 @@
-package models.other.manyToMany;
+package models.other.manytomany;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,14 +35,6 @@ public class Author {
         this.books.add(book);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Author brand = (Author) o;
-        return Objects.equals(id, brand.id) &&
-                Objects.equals(name, brand.name);
-    }
 
     public int getId() {
         return id;
@@ -66,6 +58,19 @@ public class Author {
 
     public void setCars(List<Book> cars) {
         this.books = cars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Author brand = (Author) o;
+        return Objects.equals(id, brand.id)
+                && Objects.equals(name, brand.name);
     }
 
     @Override

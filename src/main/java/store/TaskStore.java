@@ -43,6 +43,6 @@ public class TaskStore {
     }
 
     public void updateAll(List<Task> tasks) {
-        HbmProvider.instOf().voidTransaction(session -> tasks.forEach(session::update));
+        HbmProvider.instOf().voidTransaction(session -> tasks.forEach(session::merge));
     }
 }

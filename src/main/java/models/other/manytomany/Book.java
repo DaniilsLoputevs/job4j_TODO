@@ -1,4 +1,4 @@
-package models.other.manyToMany;
+package models.other.manytomany;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -43,11 +43,15 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Book car = (Book) o;
-        return Objects.equals(id, car.id) &&
-                Objects.equals(name, car.name);
+        return Objects.equals(id, car.id)
+                && Objects.equals(name, car.name);
     }
 
     @Override

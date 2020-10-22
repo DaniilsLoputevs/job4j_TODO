@@ -1,18 +1,27 @@
-package models.other.manyToOne;
+package models.other.lazyinit;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * LazyInitializationException - 2 ways how to fix this problem.
+ * Reason: get access to inner object out of linked session with this inner object.
+ * Way 1: use(get access) inner object before you close the session.
+ * Way 2: use "join fetch" in HQL query. Example:
+ * HQL = "select distinct b from Brand b join fetch b.cars"
+ */
 @Entity
-@Table(name = "j_brand")
+@Table(name = "LIE_brands")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand"
+//            , cascade = CascadeType.ALL, orphanRemoval = true
+    )
     private List<Car> cars = new ArrayList<>();
 
     public Brand() {
@@ -36,11 +45,15 @@ public class Brand {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Brand brand = (Brand) o;
-        return Objects.equals(id, brand.id) &&
-                Objects.equals(name, brand.name);
+        return Objects.equals(id, brand.id)
+                && Objects.equals(name, brand.name);
     }
 
     public int getId() {

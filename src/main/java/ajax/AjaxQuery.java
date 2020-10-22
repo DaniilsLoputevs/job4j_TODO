@@ -29,15 +29,15 @@ import static ajax.webhelp.ResponseIo.writeToResponse;
 public class AjaxQuery extends HttpServlet {
 
     /**
-     * get all tasks.
+     *  Processing ajax POST requests:
+     *  GET_TABLE
+     *  GET_CATEGORIES
      * <p>
      * goto: NONE - ajax script.
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("server_action");
 //        CustomLog.log("server action", action);
@@ -73,18 +73,11 @@ public class AjaxQuery extends HttpServlet {
      * Processing ajax POST requests:
      * ADD_TASK
      * UPD_TABLE
-     * <p>
-     * server_action : String - how to processing this request.
-     * user : String - session user.
-     * desc : String - task description.
-     * tasks : (String-JSON) Task[].
-     * <p>
      * goto: NONE - ajax script.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("server_action");
         if ("ADD_TASK".equals(action)) {
@@ -95,7 +88,6 @@ public class AjaxQuery extends HttpServlet {
     }
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) {
-//        CustomLog.log("START AddTask()");
         String desc = req.getParameter("desc");
         String creator = req.getParameter("creator");
         String categoryIds = req.getParameter("categoryIds");
@@ -106,21 +98,20 @@ public class AjaxQuery extends HttpServlet {
 
         User user = UserStore.instOf().getByName(creator);
         List<Category> categories = getCategoriesByIds(categoryIds);
-//        CustomLog.log("user:" + user);
-//        CustomLog.log("categories:" + categories);
+//        CustomLog.log("user" + user);
+//        CustomLog.log("categories" + categories);
 
         Task temp = new Task(desc, categories, user);
-//        CustomLog.log("temp:" + temp);
+//        CustomLog.log("temp" + temp);
 
         TaskStore.instOf().add(temp);
-//        CustomLog.log("FINISH AddTask()");
     }
 
     private static List<Category> getCategoriesByIds(String ids) {
         List<Category> rsl = new ArrayList<>();
 
-        for (String StringId : ids.split("-")) {
-            int intId = Integer.parseInt(StringId);
+        for (String stringId : ids.split("-")) {
+            int intId = Integer.parseInt(stringId);
             rsl.add(CategoryStore.instOf().getById(intId));
         }
         return rsl;
@@ -167,10 +158,6 @@ public class AjaxQuery extends HttpServlet {
 
                 tasks[i].setCreated(DateTransform.toBack(dates[i]));
             }
-
-//            String log = Arrays.asList(tasks);
-//            CustomLog.log("taskList", log);
-
             TaskStore.instOf().updateAll(Arrays.asList(tasks));
         } catch (JsonProcessingException e) {
             e.printStackTrace();

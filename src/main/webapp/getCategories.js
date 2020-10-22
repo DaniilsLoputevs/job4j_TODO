@@ -12,7 +12,7 @@ $(document).ready(() => {
 
         parseData.forEach(category =>
             rslHtml += `<option value='${category.id}/>'>${category.name}</option>`
-        )
+        );
         document.getElementById("category-list").innerHTML = rslHtml;
 
     }).fail((err) => {

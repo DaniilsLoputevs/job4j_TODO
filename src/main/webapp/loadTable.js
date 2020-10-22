@@ -7,7 +7,6 @@ $(document).ready(() => {
             server_action: "GET_TABLE"
         }
     }).done((data) => {
-        // console.log("data");
         // console.log(data);
         for (let i = 0; i < data.length; i++) {
             // prepare data
@@ -21,6 +20,7 @@ $(document).ready(() => {
             }
             // console.log("data N" + i, data[i]);
             // console.log("checkValue", checkValue);
+
             for (let j = 0; j < task.category.length; j++) {
                 categoryName += task.category[j].name + ", ";
             }
@@ -44,7 +44,3 @@ $(document).ready(() => {
         console.log(err)
     })
 });
-
-function getContextPath() {
-    return location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
-}

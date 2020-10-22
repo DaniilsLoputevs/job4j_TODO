@@ -69,12 +69,17 @@ public class HbmProvider {
      */
     private Object defaultTransaction(Function<Session, Object> action) {
         Session session = sf.getCurrentSession();
-        session.beginTransaction();
+        Object rsl;
+        try {
+            session.beginTransaction();
 
-        var rsl = action.apply(session);
+            rsl = action.apply(session);
 
-        session.getTransaction().commit();
-        session.close();
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
+
         return rsl;
     }
 

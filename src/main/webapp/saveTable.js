@@ -36,8 +36,8 @@ $(function () {
         creators = "[" + creators + "]";
         createdDates = "[" + createdDates + "]";
 
-        console.log("cat", categories);
-        console.log("cre", creators);
+        // console.log("cat", categories);
+        // console.log("cre", creators);
 
         $.ajax({
             type: 'POST',

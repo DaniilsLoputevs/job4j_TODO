@@ -19,12 +19,12 @@ $(function () {
             }).done((data) => {
                 let parseData = JSON.parse(data);
 
-                if (parseData.user === "user Not Founded.") {
-                    alert(parseData.user);
-                } else if (parseData.user === "incorrect Password.") {
-                    alert(parseData.user);
+                if (parseData === "user Not Founded.") {
+                    alert(parseData);
+                } else if (parseData === "incorrect Password.") {
+                    alert(parseData);
                 } else {
-                    document.getElementById("link-login").innerText = parseData.user;
+                    document.getElementById("link-login").innerText = parseData;
                     sessionStorage.setItem("user", parseData.user);
                     alert("Authorization success!");
                 }

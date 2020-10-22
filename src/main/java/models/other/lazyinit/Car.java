@@ -1,4 +1,4 @@
-package models.other.lazyInit;
+package models.other.lazyinit;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -61,11 +61,15 @@ public class Car {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Car car = (Car) o;
-        return Objects.equals(id, car.id) &&
-                Objects.equals(name, car.name);
+        return Objects.equals(id, car.id)
+                && Objects.equals(name, car.name);
     }
 
     @Override

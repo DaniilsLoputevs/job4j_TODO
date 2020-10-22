@@ -28,12 +28,12 @@ public class CategoryStore {
 
     public Category getById(int id) {
         List<Category> temp = core.getBy("id", id);
-        return (temp.isEmpty()) ? new Category() : temp.get(0);
+        return getCategoryOrEmptyUser(temp);
     }
 
     public Category getByName(String name) {
         List<Category> temp = core.getBy("name", name);
-        return (temp.isEmpty()) ? new Category() : temp.get(0);
+        return getCategoryOrEmptyUser(temp);
     }
 
     public List<Category> getAll() {
@@ -45,4 +45,9 @@ public class CategoryStore {
         temp.setId(id);
         core.delete(temp);
     }
+
+    private Category getCategoryOrEmptyUser(List<Category> list) {
+        return (list.isEmpty()) ? new Category() : list.get(0);
+    }
+
 }

@@ -1,10 +1,7 @@
 package hibernate;
 
-import ahelptools.CustomLog;
-import store.TaskStore;
-
 public class HbmManualTableWork {
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 
         // init Table users
 //        UserStore.instOf().add(User.GUEST);
@@ -52,8 +49,8 @@ public class HbmManualTableWork {
 //        CustomLog.log("task", TaskStore.instOf().getAll());
 
 
-        var list = TaskStore.instOf().getAll();
-        CustomLog.log("list", list);
-    }
+//        var list = TaskStore.instOf().getAll();
+//        CustomLog.log("list", list);
+//    }
 
 }

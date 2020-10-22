@@ -1,4 +1,4 @@
-package hibernate;
+package hibernate.othertasks;
 
 import models.User;
 import org.hibernate.Session;

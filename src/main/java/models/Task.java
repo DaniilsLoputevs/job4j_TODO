@@ -20,13 +20,10 @@ public class Task {
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @ManyToMany(cascade = {PERSIST, MERGE, REMOVE, REFRESH, DETACH})
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "category_id")
     private List<Category> categories;
 
-    //    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ManyToOne(cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "user_id")
@@ -39,8 +36,6 @@ public class Task {
     }
 
     public Task(String description, List<Category> categories, User creator) {
-//        Task temp = new Task(-1, desc, categories,
-//                new Timestamp(System.currentTimeMillis()), false, user);
         this.id = -1;
         this.description = description;
         this.categories = categories;
@@ -160,4 +155,5 @@ public class Task {
                 collect("category", categories)
         );
     }
+
 }

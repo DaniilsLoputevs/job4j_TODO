@@ -6,12 +6,12 @@ $(function () {
         let dataUser = getUserOrGuest();
         let dataCategoriesIds = getCategoriesIds();
 
-        console.log("AJAX START");
-        console.log("desc: ", dataDesc);
-        console.log("user: ", dataUser);
-        console.log("categoriesIds: ", dataCategoriesIds);
+        // console.log("AJAX START");
+        // console.log("desc: ", dataDesc);
+        // console.log("user: ", dataUser);
+        // console.log("categoriesIds: ", dataCategoriesIds);
 
-        alert("Manual stop send");
+        // alert("Manual stop send");
 
         $.ajax({
             type: 'POST',
@@ -25,11 +25,8 @@ $(function () {
             },
         }).done((data) => {
             alert("Task added!");
-            console.log("AJAX DONE");
-            // window.location.href = getContextPath();
         }).fail((err) => {
             alert("Error!!! - See console");
-            alert(err.error);
             console.log(err);
         })
 
@@ -57,9 +54,4 @@ function getCategoriesIds() {
         }
     }
     return substringFrom(idsAsString, 0, 1);
-}
-
-function substringFrom(String, start, charsSkipFromEnd) {
-    return String.substring(start, String.length - charsSkipFromEnd);
-
 }

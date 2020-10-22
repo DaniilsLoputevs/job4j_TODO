@@ -5,7 +5,7 @@ import hibernate.HbmProvider;
 import java.util.List;
 
 /**
- * Just shared code in one place.
+ * Shared code in one place. + Base for create any ModelStore.
  */
 public class BasicHbmStore<T> {
     private final String modelClassName;

@@ -1,13 +1,13 @@
-package hibernate;
+package hibernate.othertasks;
 
-import ahelptools.CustomLog;
-import models.other.lazyInit.Brand;
-import models.other.lazyInit.Car;
+import models.other.lazyinit.Brand;
+import models.other.lazyinit.Car;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import utiltools.CustomLog;
 
 import java.util.ArrayList;
 import java.util.List;

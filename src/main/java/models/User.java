@@ -14,8 +14,6 @@ public class User {
     private String email;
     private String password;
 
-    public static final User GUEST = new User(-1, "guest", "email", "password");
-
 
     public User() {
     }
