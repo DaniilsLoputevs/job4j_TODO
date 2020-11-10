@@ -12,8 +12,9 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
-
         <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <property name="hibernate.jdbc.time_zone">Europe/London</property>
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
@@ -22,6 +23,8 @@
         <mapping class="models.Task" />
         <mapping class="models.User" />
         <mapping class="models.Category" />
+
+
 
 <!--        <mapping class="models.othertasks.manytoone.Brand" />-->
 <!--        <mapping class="models.othertasks.manytoone.Car" />-->

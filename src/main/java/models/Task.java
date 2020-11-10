@@ -28,6 +28,7 @@ public class Task {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "user_id")
     private User creator;
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp created;
     private boolean done;
 
