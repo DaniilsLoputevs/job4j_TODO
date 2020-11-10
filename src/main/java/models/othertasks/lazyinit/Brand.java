@@ -1,4 +1,4 @@
-package models.other.lazyinit;
+package models.othertasks.lazyinit;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -23,13 +23,13 @@
         <mapping class="models.User" />
         <mapping class="models.Category" />
 
-<!--        <mapping class="models.other.manytoone.Brand" />-->
-<!--        <mapping class="models.other.manytoone.Car" />-->
+<!--        <mapping class="models.othertasks.manytoone.Brand" />-->
+<!--        <mapping class="models.othertasks.manytoone.Car" />-->
 
-        <mapping class="models.other.manytomany.Author" />
-        <mapping class="models.other.manytomany.Book" />
+        <mapping class="models.othertasks.manytomany.Author" />
+        <mapping class="models.othertasks.manytomany.Book" />
 
-        <mapping class="models.other.lazyinit.Brand" />
-        <mapping class="models.other.lazyinit.Car" />
+        <mapping class="models.othertasks.lazyinit.Brand" />
+        <mapping class="models.othertasks.lazyinit.Car" />
     </session-factory>
 </hibernate-configuration>

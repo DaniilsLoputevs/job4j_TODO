@@ -1,40 +1,39 @@
-package models.other.manytomany;
+package models.othertasks.lazyinit;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
+/**
+ * LazyInitializationException - 2 ways how to fix this problem.
+ * Reason: get access to inner object out of linked session with this inner object.
+ * Way 1: use(get access) inner object before you close the session.
+ * Way 2: use "join fetch" in HQL query. Example:
+ * HQL = "select distinct b from Brand b join fetch b.cars"
+ */
 @Entity
-@Table(name = "ManyToMany_author")
-public class Author {
+@Table(name = "LIE_cars")
+public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE})
-//    @ManyToMany(cascade =  CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
-    public Author() {
+    public Car() {
     }
 
-    public Author(int id, String name, List<Book> cars) {
+    public Car(int id, String name) {
         this.id = id;
         this.name = name;
-        this.books = cars;
     }
 
-    public static Author of(String name) {
-        Author author = new Author();
-        author.name = name;
-        return author;
+    public static Car of(String name) {
+        Car car = new Car();
+        car.name = name;
+        return car;
     }
-
-    public void addBook(Book book) {
-        this.books.add(book);
-    }
-
 
     public int getId() {
         return id;
@@ -52,12 +51,12 @@ public class Author {
         this.name = name;
     }
 
-    public List<Book> getCars() {
-        return books;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setCars(List<Book> cars) {
-        this.books = cars;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @Override
@@ -68,9 +67,9 @@ public class Author {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Author brand = (Author) o;
-        return Objects.equals(id, brand.id)
-                && Objects.equals(name, brand.name);
+        Car car = (Car) o;
+        return Objects.equals(id, car.id)
+                && Objects.equals(name, car.name);
     }
 
     @Override
@@ -80,10 +79,9 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{"
+        return "Car{"
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
-                + ", cars=" + books
                 + '}';
     }
 }

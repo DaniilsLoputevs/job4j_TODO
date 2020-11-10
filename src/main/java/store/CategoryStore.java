@@ -1,5 +1,6 @@
 package store;
 
+import hibernate.BasicHbmStore;
 import models.Category;
 
 import java.util.List;
@@ -28,12 +29,13 @@ public class CategoryStore {
 
     public Category getById(int id) {
         List<Category> temp = core.getBy("id", id);
-        return getCategoryOrEmptyUser(temp);
+        return core.getFirstOrEmpty(temp, new Category());
+
     }
 
     public Category getByName(String name) {
         List<Category> temp = core.getBy("name", name);
-        return getCategoryOrEmptyUser(temp);
+        return core.getFirstOrEmpty(temp, new Category());
     }
 
     public List<Category> getAll() {
@@ -41,13 +43,7 @@ public class CategoryStore {
     }
 
     public void delete(int id) {
-        var temp = new Category();
-        temp.setId(id);
-        core.delete(temp);
-    }
-
-    private Category getCategoryOrEmptyUser(List<Category> list) {
-        return (list.isEmpty()) ? new Category() : list.get(0);
+        core.delete(id);
     }
 
 }

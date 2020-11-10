@@ -1,4 +1,4 @@
-package models.other.manytoone;
+package models.othertasks.manytoone;
 
 import javax.persistence.*;
 import java.util.Objects;

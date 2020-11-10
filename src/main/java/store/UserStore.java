@@ -1,8 +1,7 @@
 package store;
 
+import hibernate.BasicHbmStore;
 import models.User;
-
-import java.util.List;
 
 public class UserStore {
     private static final class Lazy {
@@ -23,21 +22,15 @@ public class UserStore {
 
     public User getByEmail(String email) {
         var temp = core.getBy("email", email);
-        return getUserOrEmptyUser(temp);
+        return core.getFirstOrEmpty(temp, new User());
     }
 
     public User getByName(String name) {
         var temp = core.getBy("name", name);
-        return getUserOrEmptyUser(temp);
+        return core.getFirstOrEmpty(temp, new User());
     }
 
     public void delete(int id) {
-        var temp = new User();
-        temp.setId(id);
-        core.delete(temp);
-    }
-
-    private User getUserOrEmptyUser(List<User> list) {
-        return (list.isEmpty()) ? new User() : list.get(0);
+      core.delete(id);
     }
 }

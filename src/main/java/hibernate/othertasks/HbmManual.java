@@ -1,16 +1,17 @@
 package hibernate.othertasks;
 
-import models.other.lazyinit.Brand;
-import models.other.lazyinit.Car;
+import models.othertasks.lazyinit.Brand;
+import models.othertasks.lazyinit.Car;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import utiltools.CustomLog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//import utiltools.CustomLog;
 
 public class HbmManual {
     public static void main(String[] args) {
@@ -101,8 +102,8 @@ public class HbmManual {
             }
         }
 
-        CustomLog.log("list", list);
-        CustomLog.log("cars", cars);
+//        CustomLog.log("list", list);
+//        CustomLog.log("cars", cars);
 //        cars.forEach(System.out::println);
 
 

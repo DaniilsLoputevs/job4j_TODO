@@ -1,6 +1,6 @@
 package store;
 
-import hibernate.HbmProvider;
+import hibernate.BasicHbmStore;
 import models.Task;
 
 import java.util.List;
@@ -24,18 +24,16 @@ public class TaskStore {
 
     public Task getById(int id) {
         String temp = "from Task as mt join fetch mt.categories where mt.id=" + id;
-        return HbmProvider.instOf().exeQuerySingleRsl(temp);
+        return core.getProvider().exeQuerySingleRsl(temp);
     }
 
     public List<Task> getAll() {
         String temp = "select distinct mt from Task as mt join fetch mt.categories";
-        return HbmProvider.instOf().exeQueryList(temp);
+        return core.getProvider().exeQueryList(temp);
     }
 
     public void delete(int id) {
-        Task temp = new Task();
-        temp.setId(id);
-        core.delete(temp);
+        core.delete(id);
     }
 
     public void update(Task task) {
@@ -43,6 +41,6 @@ public class TaskStore {
     }
 
     public void updateAll(List<Task> tasks) {
-        HbmProvider.instOf().voidTransaction(session -> tasks.forEach(session::merge));
+        core.updateAll(tasks);
     }
 }

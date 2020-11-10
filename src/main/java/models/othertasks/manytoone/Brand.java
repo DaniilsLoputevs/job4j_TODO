@@ -1,29 +1,39 @@
-package models.other.manytomany;
+package models.othertasks.manytoone;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ManyToMany_book")
-public class Book {
+@Table(name = "j_brand")
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Car> cars = new ArrayList<>();
 
-    public Book() {
+    public Brand() {
     }
 
-    public Book(int id, String name) {
+    public Brand(int id, String name, List<Car> cars) {
         this.id = id;
         this.name = name;
+        this.cars = cars;
     }
 
-    public static Book of(String name) {
-        Book book = new Book();
-        book.name = name;
-        return book;
+    public static Brand of(String name) {
+        Brand brand = new Brand();
+        brand.name = name;
+        return brand;
     }
+
+    public void addCar(Car car) {
+        this.cars.add(car);
+    }
+
 
     public int getId() {
         return id;
@@ -41,6 +51,14 @@ public class Book {
         this.name = name;
     }
 
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -49,9 +67,9 @@ public class Book {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Book car = (Book) o;
-        return Objects.equals(id, car.id)
-                && Objects.equals(name, car.name);
+        Brand brand = (Brand) o;
+        return Objects.equals(id, brand.id)
+                && Objects.equals(name, brand.name);
     }
 
     @Override
@@ -61,9 +79,10 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{"
+        return "Brand{"
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
+                + ", cars=" + cars
                 + '}';
     }
 }
