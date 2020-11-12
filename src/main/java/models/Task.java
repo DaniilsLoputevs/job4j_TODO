@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User creator;
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp created;
+    private Date created;
     private boolean done;
 
 
@@ -87,11 +88,11 @@ public class Task {
         this.creator = creator;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Timestamp created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 

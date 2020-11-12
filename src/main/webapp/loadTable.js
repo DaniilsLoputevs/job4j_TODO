@@ -29,10 +29,10 @@ $(document).ready(() => {
             rsl += `
                 <tr id="line">
                 <td>${task.id}</td>
-                <td>${task.description} </td>
-                <td>${categoryName} </td>
-                <td>${task.creator} </td>
-                <td>${task.created} </td>
+                <td>${task.description}</td>
+                <td>${categoryName}</td>
+                <td>${task.creator}</td>
+                <td>${task.created}</td>
                 <td><input id="check-id${task.id}" type="checkbox" class="check" name="table-line" ${checkValue}></td>
                 </tr>
                 `;

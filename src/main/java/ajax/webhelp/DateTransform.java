@@ -1,6 +1,5 @@
 package ajax.webhelp;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,16 +7,16 @@ import java.util.Date;
 public class DateTransform {
     public static final String PATTERN_TABLE_TIMESTAMP = "yyyy-MM-dd HH:mm:ss";
 
-    public static String toFront(Timestamp timestamp) {
-        String rsl = timestamp.toString();
-        return rsl.substring(0, rsl.lastIndexOf('.'));
+    private static final SimpleDateFormat SDF = new SimpleDateFormat(PATTERN_TABLE_TIMESTAMP);
+
+    public static String toFront(Date date) {
+        return SDF.format(date);
     }
 
-    public static Timestamp toBack(String timestamp) {
-        Timestamp rsl = null;
+    public static Date toBack(String date) {
+        Date rsl = null;
         try {
-            Date date = new SimpleDateFormat(PATTERN_TABLE_TIMESTAMP).parse(timestamp);
-            rsl = new Timestamp(date.getTime());
+            rsl = SDF.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -25,6 +24,41 @@ public class DateTransform {
     }
 
     /* For future projects, explain how it work. */
+
+//    public static void main(String[] args) {
+//        Date one = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN_TABLE_TIMESTAMP);
+//        String two = dateFormat.format(one);
+//        try {
+//            Date three = dateFormat.parse(two);
+//
+//            System.out.println("Original: " + one);
+//            System.out.println("toFront: " + two);
+//            System.out.println("toBack: " + three);
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /* Work with Timestamp */
+//    public static String toFront(Timestamp timestamp) {
+//        String rsl = timestamp.toString();
+//        return rsl.substring(0, rsl.lastIndexOf('.'));
+//    }
+//
+//    public static Timestamp toBack(String timestamp) {
+//        Timestamp rsl = null;
+//        try {
+//            Date date = new SimpleDateFormat(PATTERN_TABLE_TIMESTAMP).parse(timestamp);
+//            rsl = new Timestamp(date.getTime());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return rsl;
+//    }
+
+
 
 //    public static void main(String[] args) {
 //        CustomLog.log("START");

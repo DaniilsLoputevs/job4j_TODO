@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Category;
 import models.Task;
 import models.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import store.CategoryStore;
 import store.TaskStore;
 import store.UserStore;
@@ -28,10 +30,12 @@ import static ajax.webhelp.ResponseIo.writeToResponse;
  */
 public class AjaxQuery extends HttpServlet {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AjaxQuery.class);
+
     /**
-     *  Processing ajax POST requests:
-     *  GET_TABLE
-     *  GET_CATEGORIES
+     * Processing ajax POST requests:
+     * GET_TABLE
+     * GET_CATEGORIES
      * <p>
      * goto: NONE - ajax script.
      */
@@ -120,7 +124,7 @@ public class AjaxQuery extends HttpServlet {
 
     /**
      * Very not obvious point.
-     *
+     * <p>
      * Model sending by parts because for whole Model we need to get whole inner models.
      * From front we get part of inner models(name || id) we need to get whole
      * and set in Task like a fields.
@@ -144,7 +148,7 @@ public class AjaxQuery extends HttpServlet {
             String[] users = objectMapper.readValue(jsonCreators, String[].class);
             String[] dates = objectMapper.readValue(createdDates, String[].class);
 
-//            CustomLog.log("users", Arrays.toString(users));
+//            LOG.info("categories: {}", Arrays.toString(categories));
 
             for (int i = 0; i < tasks.length; i++) {
                 User creator = UserStore.instOf().getByName(users[i]);
@@ -158,6 +162,7 @@ public class AjaxQuery extends HttpServlet {
 
                 tasks[i].setCreated(DateTransform.toBack(dates[i]));
             }
+            LOG.info("tasks: {}", Arrays.toString(tasks));
             TaskStore.instOf().updateAll(Arrays.asList(tasks));
         } catch (JsonProcessingException e) {
             e.printStackTrace();

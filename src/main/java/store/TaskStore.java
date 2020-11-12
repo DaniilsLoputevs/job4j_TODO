@@ -21,6 +21,9 @@ public class TaskStore {
     public void add(Task task) {
         core.add(task);
     }
+    public void addAll(List<Task> tasks) {
+        core.addAll(tasks);
+    }
 
     public Task getById(int id) {
         String temp = "from Task as mt join fetch mt.categories where mt.id=" + id;

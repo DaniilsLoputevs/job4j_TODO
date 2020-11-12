@@ -3,7 +3,6 @@ package hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
@@ -19,18 +18,23 @@ import java.util.function.Function;
  * @since 10.11.2020.
  */
 public class HbmProvider {
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-    private final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
 
-    private static final class Lazy {
-        private static final HbmProvider INST = new HbmProvider();
+    private final SessionFactory sf = initSf();
+
+    private SessionFactory initSf() {
+        return new MetadataSources(
+                new StandardServiceRegistryBuilder().configure().build())
+                .getMetadataBuilder().build()
+                .getSessionFactoryBuilder().build();
     }
 
     /**
      * Lazy Singleton.
      */
+    private static final class Lazy {
+        private static final HbmProvider INST = new HbmProvider();
+    }
+
     public static HbmProvider instOf() {
         return HbmProvider.Lazy.INST;
     }
