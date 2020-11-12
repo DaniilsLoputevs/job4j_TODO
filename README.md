@@ -28,7 +28,6 @@ There is three-tier architecture is used in the project (presentation, business,
 - Easy task creation.
 - The added task immediately enters the table on the client && server side.
 
-## Production overview:
 *The main page*
 ![alt](previewview/job4j_TODO_001_Final.png)
 *Hide done tasks*
