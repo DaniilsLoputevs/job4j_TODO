@@ -11,7 +11,7 @@ There is three-tier architecture is used in the project (presentation, business,
 1. For back-end:
     * servlets (lib: javax.servlet-api)
     * JSON (lib: Jackson)
-    * fileupload (lib: apache )
+    * fileupload (lib: apache fileupload)
     * postgresSQL (Framework: Hibernate)
 2. For front-end
     * html(HTML5 + bootstrap 4)
